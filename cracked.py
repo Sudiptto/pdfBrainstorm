@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request
 import PyPDF2
+from PyPDF2 import PdfReader
 import re
 
 # Create the Flask application
 app = Flask(__name__)
-
-
-
 
 # Define a route and its handler
 @app.route('/')
@@ -25,7 +23,7 @@ def upload():
         reader = PyPDF2.PdfReader(file) 
         # Extract text from the PDF
         all_text = ""
-
+        #print(reader.pages)
         for page in reader.pages:
             text = page.extract_text()
 
@@ -34,15 +32,14 @@ def upload():
             text = re.sub(r'\/', '', text)
 
             all_text += text.strip()
-        
+        print(len(reader.pages))
         print(all_text)
+
         return f"File '{filename}' uploaded successfully!"
         
     else:
         return "No file was uploaded."
     
-
-
 
 # Run the app if this script is executed directly
 if __name__ == '__main__':
