@@ -1,10 +1,30 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>File Upload</title>
 </head>
 <body>
-    <h1>Test</h1>
+    <h1>File Upload</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdfFile" id="pdfFile">
+        <button type="submit">Upload PDF</button>
+    </form>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+
+        uploadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(uploadForm);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const responseData = await response.text();
+            alert(responseData);
+        });
+    </script>
 </body>
 </html>
