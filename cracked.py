@@ -46,4 +46,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+
+# THIS WORKS ONLY FOR PDFS WHERE YOU CAN COPY AND PASTE THE TEXT NOT ON PDFS WHERE YOU HAVE TO TAKE PICTURES OF THE TEXT
+
     
