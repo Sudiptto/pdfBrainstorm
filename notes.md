@@ -10,3 +10,21 @@ This is because when you use Microsoft Print to PDF it treats the PDF as an imag
 This is not a space issue!
 
 Note: Download instead of microsoft text to pdf!
+
+
+
+Second Issue Founded:
+
+Text length! I am testing documents that stretch up to 70 pages and one huge issue is chat gpt limitation and their text limitation so I am going to use index slicing to limit the amount of characters to under 10,000, for example using the first 8,000 characters
+
+
+Limits, I am limited by openai, I only have 5$, the more complex questions I want the higher amount of tokens I will need
+
+
+Issue #3:
+
+Using less javascript, before I did a project using mostly the FetchAPI in javascript with flask and it was a very difficult project. I had some issues with python and javascript so I just sticked to POST methods in python
+
+Issue #4
+
+I am limited!
