@@ -11,7 +11,9 @@ openai.api_key = openai_key
 
 # openai
 
-def text_chunk(txt_prompt):
+
+# KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
+"""def text_chunk(txt_prompt):
     # Generate text using the OpenAI API
     response = openai.Completion.create(
         engine='text-davinci-003',  # Specify the model to use
@@ -26,8 +28,13 @@ def text_chunk(txt_prompt):
     # Split the generated text into individual questions (you need to adjust this part based on the actual response format)
     questions = generated_text.split("\n")
 
-    return questions
+    return questions"""
 
+# Create a login
+
+@app.route('/login', methods=['POST','GET'])
+def login():
+    return render_template('login.html')
 
 # Define a route and its handler
 @app.route('/')
@@ -54,7 +61,7 @@ def upload():
             text = re.sub(r'\/', '', text)
 
             all_text += text.strip()
-
+        print(all_text)
         # Limit the text to 8000 characters (you can adjust this if needed)
         if len(all_text) > 8000:
             all_text = all_text[:8000]
