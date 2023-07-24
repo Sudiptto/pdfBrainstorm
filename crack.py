@@ -59,12 +59,16 @@ def upload():
         if len(all_text) > 8000:
             all_text = all_text[:8000]
 
-        txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
-        questions = text_chunk(txt_prompt)
+            # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
+
+        """txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
+        questions = text_chunk(txt_prompt)"""
 
         # Render the questions.html template and pass the generated questions to the template
-        print(type(questions))
-        print(questions)
+        #print(type(questions))
+        #print(questions)
+
+        questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
         return render_template('questions.html', questions=questions)
         
     else:

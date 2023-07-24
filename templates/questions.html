@@ -6,9 +6,9 @@
 <body>
     <h1>Generated Questions</h1>
     <ul>
-        
-        <li>{{ questions }}</li>
-        
+        {% for question in questions %}
+        <li>{{ question }}</li>
+        {% endfor %}
     </ul>
 </body>
 </html>
