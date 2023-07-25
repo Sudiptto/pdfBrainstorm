@@ -2,15 +2,31 @@ from flask import Flask, render_template, request
 import PyPDF2
 import re
 import openai
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, LoginManager
 from passwords import *
 
 # Create the Flask application
 app = Flask(__name__)
 openai.api_key = openai_key
+app.config['SECRET_KEY'] = 'ss232'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+# SET UP DATABASE CLASS
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
-# openai
-
+# SET UP DATABASE CLASS
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
 
 # KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
 """def text_chunk(txt_prompt):
@@ -32,12 +48,20 @@ openai.api_key = openai_key
 
 # Create a login
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/', methods=['POST','GET'])
 def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        #if username == 
+        usern = User.query.filter_by(username=username).first()
+        if usern:
+            print("Works")
+        else:
+            print('None')
     return render_template('login.html')
 
 # Define a route and its handler
-@app.route('/')
+@app.route('/main')
 def hello():
     return render_template('main.html')
 
@@ -61,7 +85,7 @@ def upload():
             text = re.sub(r'\/', '', text)
 
             all_text += text.strip()
-        print(all_text)
+        #print(all_text)
         # Limit the text to 8000 characters (you can adjust this if needed)
         if len(all_text) > 8000:
             all_text = all_text[:8000]
@@ -82,6 +106,11 @@ def upload():
         return "No file was uploaded."
 
 
+
 # Run the app if this script is executed directly
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # Create the database tables
+    #db.create_all()
     app.run(debug=True)
+    
