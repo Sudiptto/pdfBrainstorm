@@ -13,7 +13,7 @@ openai.api_key = openai_key
 
 
 # KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
-"""def text_chunk(txt_prompt):
+def text_chunk(txt_prompt):
     # Generate text using the OpenAI API
     response = openai.Completion.create(
         engine='text-davinci-003',  # Specify the model to use
@@ -28,7 +28,7 @@ openai.api_key = openai_key
     # Split the generated text into individual questions (you need to adjust this part based on the actual response format)
     questions = generated_text.split("\n")
 
-    return questions"""
+    return questions
 
 # Create a login
 
@@ -68,14 +68,14 @@ def upload():
 
             # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
 
-        """txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
-        questions = text_chunk(txt_prompt)"""
+        txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
+        questions = text_chunk(txt_prompt)
 
         # Render the questions.html template and pass the generated questions to the template
         #print(type(questions))
         #print(questions)
 
-        questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
+        #questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
         return render_template('questions.html', questions=questions)
         
     else:
