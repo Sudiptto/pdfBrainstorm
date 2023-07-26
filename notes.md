@@ -27,4 +27,12 @@ Using less javascript, before I did a project using mostly the FetchAPI in javas
 
 Issue #4
 
-I am limited!
+I am limited by OpenAI!
+
+Steps For tomorrow (7/25):
+Fully set up the database, use past code for reference. Since this program is only for teachers make sure to have it to where the users will have to login based on a username and password I give them. (Limits students from making an account)
+
+
+7/26
+
+Steps, make a password hash for tomorrow or if you can later.
