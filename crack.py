@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 import PyPDF2
 import re
 import openai
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin, LoginManager, login_required, login_user
 from passwords import *
 
 # Create the Flask application
@@ -56,16 +56,23 @@ def login():
         usern = User.query.filter_by(username=username).first()
         if usern:
             print("Works")
+            #user = 'sd'
+            #login_user(remember=True)
+            user = User.query.filter_by(username=username).first()
+            login_user(user, remember=True)
+            return redirect(url_for('hello'))
         else:
             print('None')
     return render_template('login.html')
 
 # Define a route and its handler
 @app.route('/main')
+@login_required
 def hello():
     return render_template('main.html')
 
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload():
     file = request.files['pdfFile']
     # Do something with the uploaded file (e.g., save it, process it, etc.)
