@@ -4,12 +4,13 @@ import re
 import openai
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_required, login_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from passwords import *
 
 # Create the Flask application
 app = Flask(__name__)
 openai.api_key = openai_key
-app.config['SECRET_KEY'] = 'ss232'
+app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
@@ -52,15 +53,21 @@ class User(db.Model, UserMixin):
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
+        password = request.form.get('password')
         #if username == 
         usern = User.query.filter_by(username=username).first()
         if usern:
             print("Works")
             #user = 'sd'
             #login_user(remember=True)
-            user = User.query.filter_by(username=username).first()
-            login_user(user, remember=True)
-            return redirect(url_for('hello'))
+            #user = User.query.filter_by(username=username).first()
+            if check_password_hash(usern.password, password):
+                login_user(usern, remember=True)
+                flash('Logged in successfully!', category='success')
+                return redirect(url_for('hello'))
+            else:
+                print("Nope rejected")
+            #return redirect(url_for('hello'))
         else:
             print('None')
     return render_template('login.html')
@@ -117,6 +124,11 @@ def upload():
 # Run the app if this script is executed directly
 if __name__ == '__main__':
     with app.app_context():
+        """username = usernamee
+        password1 = password1
+        new_user = User(username=username, password=generate_password_hash(password1, method = "sha256"))
+        db.session.add(new_user)
+        db.session.commit()"""
         db.create_all()  # Create the database tables
     #db.create_all()
     app.run(debug=True)
