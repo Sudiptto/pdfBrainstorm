@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
 
 # KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
-"""def text_chunk(txt_prompt):
+def text_chunk(txt_prompt):
     # Generate text using the OpenAI API
     response = openai.Completion.create(
         engine='text-davinci-003',  # Specify the model to use
@@ -45,7 +45,7 @@ class User(db.Model, UserMixin):
     # Split the generated text into individual questions (you need to adjust this part based on the actual response format)
     questions = generated_text.split("\n")
 
-    return questions"""
+    return questions
 
 # Create a login
 
@@ -66,8 +66,7 @@ def login():
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('hello'))
             else:
-                flash("Error: Wrong username or password. If you don't have an account, please email biswassudiptto@gmail.com regarding the account.", 'error')
-                #print("Nope rejected")
+                print("Nope rejected")
             #return redirect(url_for('hello'))
         else:
             flash("Denied: Wrong username or password. If you don't have an account, please contact biswassudiptto@gmail.com", 'error')
@@ -108,14 +107,14 @@ def upload():
 
             # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
 
-        """txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
-        questions = text_chunk(txt_prompt)"""
+        txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
+        questions = text_chunk(txt_prompt)
 
         # Render the questions.html template and pass the generated questions to the template
         #print(type(questions))
         #print(questions)
 
-        questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
+        #questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
         return render_template('questions.html', questions=questions)
         
     else:
@@ -126,11 +125,12 @@ def upload():
 # Run the app if this script is executed directly
 if __name__ == '__main__':
     with app.app_context():
+        # All of this code below is to add in a new user
         """username = usernamee
         password1 = password1
         new_user = User(username=username, password=generate_password_hash(password1, method = "sha256"))
-        db.session.add(new_user)
-        db.session.commit()"""
+        db.session.add(new_user)"""
+        db.session.commit()
         db.create_all()  # Create the database tables
     #db.create_all()
     app.run(debug=True)
