@@ -66,7 +66,7 @@ def login():
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('hello'))
             else:
-                print("Nope rejected")
+                flash('Right username, wrong password. Email biswassudiptto@gmail.com for a password!', category='error')
             #return redirect(url_for('hello'))
         else:
             flash("Denied: Wrong username or password. If you don't have an account, please contact biswassudiptto@gmail.com", 'error')
