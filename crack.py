@@ -66,8 +66,8 @@ def login():
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('hello'))
             else:
-                print("Nope rejected")
-            #return redirect(url_for('hello'))
+                flash('Please use the right password!', category='error')
+            return redirect(url_for('hello'))
         else:
             print('None')
     return render_template('login.html')
@@ -124,11 +124,12 @@ def upload():
 # Run the app if this script is executed directly
 if __name__ == '__main__':
     with app.app_context():
+        # All of this code below is to add in a new user
         """username = usernamee
         password1 = password1
         new_user = User(username=username, password=generate_password_hash(password1, method = "sha256"))
-        db.session.add(new_user)
-        db.session.commit()"""
+        db.session.add(new_user)"""
+        db.session.commit()
         db.create_all()  # Create the database tables
     #db.create_all()
     app.run(debug=True)
