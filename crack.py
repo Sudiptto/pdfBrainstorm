@@ -66,10 +66,12 @@ def login():
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('hello'))
             else:
-                print("Nope rejected")
+                flash("Error: Wrong username or password. If you don't have an account, please email biswassudiptto@gmail.com regarding the account.", 'error')
+                #print("Nope rejected")
             #return redirect(url_for('hello'))
         else:
-            print('None')
+            flash("Denied: Wrong username or password. If you don't have an account, please contact biswassudiptto@gmail.com", 'error')
+            #print('None')
     return render_template('login.html')
 
 # Define a route and its handler
@@ -99,7 +101,7 @@ def upload():
             text = re.sub(r'\/', '', text)
 
             all_text += text.strip()
-        #print(all_text)
+        print(all_text)
         # Limit the text to 8000 characters (you can adjust this if needed)
         if len(all_text) > 8000:
             all_text = all_text[:8000]

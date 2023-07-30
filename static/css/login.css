@@ -104,3 +104,39 @@ body {
 .form-group button:active {
     transform: scale(0.95); /* Slightly decrease the button size when clicked */
 }
+
+/* login.css */
+
+/* Style for the flash message container */
+.flash-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Style for the flash messages */
+.flash-message {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    font-size: 25px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    max-width: 500px;
+}
+
+/* Style for the "error" flash message */
+.flash-message.error {
+    background-color: darkred;
+}
+
+/* Style for the "info" flash message */
+.flash-message.info {
+    background-color: #4da6ff;
+}
+
+/* Style for the "success" flash message */
+.flash-message.success {
+    background-color: #33cc33;
+}
