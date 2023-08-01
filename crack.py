@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 import PyPDF2
 import re
 import openai
@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
-# KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
+"""# KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
 def text_chunk(txt_prompt):
     # Generate text using the OpenAI API
     response = openai.Completion.create(
@@ -45,7 +45,7 @@ def text_chunk(txt_prompt):
     # Split the generated text into individual questions (you need to adjust this part based on the actual response format)
     questions = generated_text.split("\n")
 
-    return questions
+    return questions"""
 
 # Create a login
 
@@ -79,10 +79,20 @@ def login():
 def hello():
     return render_template('main.html')
 
+# ISSUE
+
+@app.route('/issue')
+@login_required
+def issue():
+    return render_template('issue.html')
+
 @app.route('/upload', methods=['POST'])
 @login_required
 def upload():
     file = request.files['pdfFile']
+    numb_question = request.form.get('num_questions')
+    number_question = int(numb_question)
+    print(number_question)
     # Do something with the uploaded file (e.g., save it, process it, etc.)
     # For this example, we'll just print the filename and return a success message.
     if file:
@@ -100,22 +110,26 @@ def upload():
             text = re.sub(r'\/', '', text)
 
             all_text += text.strip()
-        print(all_text)
+        #print(all_text)
         # Limit the text to 8000 characters (you can adjust this if needed)
         if len(all_text) > 8000:
             all_text = all_text[:8000]
 
             # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
+        if number_question > 0 and number_question < 11:
+            txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the {number_question} questions based on the text: {all_text}'
+            #questions = text_chunk(txt_prompt)
 
-        txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the 5 questions based on the text: {all_text}'
-        questions = text_chunk(txt_prompt)
+            # Render the questions.html template and pass the generated questions to the template
+            #print(type(questions))
+            #print(questions)
 
-        # Render the questions.html template and pass the generated questions to the template
-        #print(type(questions))
-        #print(questions)
-
-        #questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
-        return render_template('questions.html', questions=questions)
+            questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
+            return render_template('questions.html', questions=questions)
+        elif number_question < 1:
+            return render_template('issue.html')
+        elif number_question > 10:
+            print("To many questions add between 1 - 10 question, subject to change as API usage increases! ")
         
     else:
         return "No file was uploaded."

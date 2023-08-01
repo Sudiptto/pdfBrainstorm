@@ -29,6 +29,7 @@ body {
     font-size: 40px; /* Increased font size for PdfBrainstorm text */
     margin-bottom: 20px;
     position: relative;
+    font-style: italic;
     animation: slideInFromLeft 1s;
     animation-fill-mode: forwards;
     background-color: #1a1a1a; /* Background color for PdfBrainstorm text */
