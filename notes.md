@@ -36,3 +36,9 @@ Fully set up the database, use past code for reference. Since this program is on
 7/26
 
 Steps, make a password hash for tomorrow or if you can later.
+
+
+8/7
+
+Tested out the BAM api key and it works, will use that for now
+

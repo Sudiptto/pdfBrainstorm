@@ -21,37 +21,72 @@ body {
     text-align: center;
 }
 
+/* login.css */
+
 /* Style for the "PdfBrainstorm" text */
 .login-container h1 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    color: #007bff; /* Blue text color for PdfBrainstorm text */
-    font-size: 40px; /* Increased font size for PdfBrainstorm text */
-    margin-bottom: 20px;
+    font-weight: 700; /* Increased font weight for PdfBrainstorm text */
+    color: blue; /* Yellow text color for PdfBrainstorm text */
+    font-size: 50px; /* Increased font size for PdfBrainstorm text */
+    margin-bottom: 30px; /* Increased margin for PdfBrainstorm text */
     position: relative;
     font-style: italic;
     animation: slideInFromLeft 1s;
     animation-fill-mode: forwards;
     background-color: #1a1a1a; /* Background color for PdfBrainstorm text */
-    padding: 5px 10px; /* Add some padding to PdfBrainstorm text */
-    border-radius: 5px; /* Rounded corners for PdfBrainstorm text */
-}
-
-/* Animation for sliding in the "PdfBrainstorm" text from the left */
-@keyframes slideInFromLeft {
-    0% {
-        left: -100px;
-        opacity: 0;
-    }
-    100% {
-        left: 0;
-        opacity: 1;
-    }
+    padding: 10px 20px; /* Add more padding to PdfBrainstorm text */
+    border-radius: 10px; /* Rounded corners for PdfBrainstorm text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow for depth */
+    transition: transform 0.5s, background-color 0.5s, color 0.5s; /* Transition effect for hover */
 }
 
 /* Hover effect for the "PdfBrainstorm" text */
 .login-container h1:hover {
-    color: #0056b3; /* Lighter blue text color on hover */
+    transform: scale(1.1); /* Zoom out effect on hover */
+    background-color: #007bff; /* Change background color on hover */
+    color: #ffcc00; /* Change text color on hover */
+    background-image: linear-gradient(to right, #007bff, #ffcc00); /* Color gradient on hover */
+    background-clip: text; /* Apply gradient to text */
+    -webkit-background-clip: text; /* For Safari */
+    text-fill-color: transparent; /* Make text transparent to show gradient */
+    
+    /* Additional thunderbolt animation */
+    position: relative;
+}
+.login-container h1:hover::before,
+.login-container h1:hover::after {
+    content: "⚡"; /* Thunderbolt symbol */
+    position: absolute;
+    color: #ffcc00; /* Thunderbolt color */
+    font-size: 24px;
+    opacity: 0.5;
+}
+.login-container h1:hover::before {
+    left: -10px;
+    top: -5px;
+    animation: thunderbolt 1s infinite ease-in-out;
+}
+.login-container h1:hover::after {
+    right: -10px;
+    bottom: -5px;
+    animation: thunderbolt 1s infinite ease-in-out alternate-reverse;
+}
+
+/* Keyframe animation for thunderbolt */
+@keyframes thunderbolt {
+    0% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-10px);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
 }
 
 /* Style for form groups (username, password, and button) */
