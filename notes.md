@@ -36,3 +36,7 @@ Fully set up the database, use past code for reference. Since this program is on
 7/26
 
 Steps, make a password hash for tomorrow or if you can later.
+
+7/31
+
+Been a while since making notes but set up a lot of the flask, set up the password hashing and more + doing good on the front end side, progress has been slow but will ramp up soon
