@@ -9,10 +9,20 @@ from passwords import *
 
 # Create the Flask application
 app = Flask(__name__)
-openai.api_key = openai_key
+#openai.api_key = openai_key
 app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
+
+
+#BAM summer 2023 keys
+
+openai.api_key = bam_key
+openai.api_base = "https://bsmp2023.openai.azure.com/"
+openai.api_type = 'azure'
+openai.api_version = "2023-03-15-preview"
+OPENAI_MODEL = "gpt-35-turbo"
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,8 +39,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
-"""# KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
-def text_chunk(txt_prompt):
+# KEEP HIDDEN FOR NOW AS TO NOT USE THE OPENAI API
+# KEEP HIDDEN FOR NOW, USER MR HALE KEY
+"""def text_chunk(txt_prompt):
     # Generate text using the OpenAI API
     response = openai.Completion.create(
         engine='text-davinci-003',  # Specify the model to use
@@ -46,6 +57,27 @@ def text_chunk(txt_prompt):
     questions = generated_text.split("\n")
 
     return questions"""
+
+
+# BAM API AI USAGE
+def question_gen(txt_prompt):
+  response = openai.ChatCompletion.create(
+    engine=OPENAI_MODEL,
+    messages=[
+      {
+        "role": "system",
+        "content": "You are a top level PDF extractor and question creator"
+      },
+      {
+        "role": "user",
+        "content": txt_prompt
+      },
+    ])
+  
+  generated_text = response['choices'][0]['message']['content']
+
+  questions = generated_text.split("\n") # turn the string to a list
+  return questions
 
 # Create a login
 
@@ -92,6 +124,8 @@ def upload():
     file = request.files['pdfFile']
     numb_question = request.form.get('num_questions')
     number_question = int(numb_question)
+    type_question = request.form.get('education-level')
+    print(type_question)
     print(number_question)
     # Do something with the uploaded file (e.g., save it, process it, etc.)
     # For this example, we'll just print the filename and return a success message.
@@ -116,19 +150,20 @@ def upload():
             all_text = all_text[:8000]
 
             # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
-        if number_question > 0 and number_question < 11:
-            txt_prompt = f'Based on this text, only generate 5 relevant questions based on the text and only print out the {number_question} questions based on the text: {all_text}'
-            #questions = text_chunk(txt_prompt)
-
+        if number_question > 0 and number_question < 30:
+            txt_prompt = f'Based on this text, only generate {number_question} relevant questions based on the text. Make sure the difficulty of the questions are at a {type_question} level and only print out the {number_question} questions based on the text: {all_text}  '
+            questions = question_gen(txt_prompt) # use chatgpt
+            print(questions)
+            #print(type(questions))
             # Render the questions.html template and pass the generated questions to the template
             #print(type(questions))
             #print(questions)
 
-            questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
+            #questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
             return render_template('questions.html', questions=questions)
         elif number_question < 1:
             return render_template('issue.html')
-        elif number_question > 10:
+        elif number_question > 30:
             print("To many questions add between 1 - 10 question, subject to change as API usage increases! ")
         
     else:

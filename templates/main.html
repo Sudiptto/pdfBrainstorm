@@ -6,12 +6,42 @@
 </head>
 <body>
     <h1>File Upload</h1>
+
+    <!--
     <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
         <input type="file" name="pdfFile" id="pdfFile" required>
         <br>
         <input type="number" name="num_questions" id="num_questions" placeholder="Enter the number of questions you want from 1 - 10" required>
         <br>
         <button type="submit">Upload PDF</button>
+    </form>-->
+
+    <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
+        <!-- Drag and drop area for PDF file -->
+        <div id="drop-area" class="drop-area">
+            <p>Drag and drop your PDF file here</p>
+            <input type="file" name="pdfFile" id="pdfFile" required >
+        </div>
+    
+        <!-- Education level options -->
+        <label for="education-level">Education Level</label>
+        <select id="education-level" name="education-level" required>
+            <option value="" disabled selected>Select Education Level</option>
+            <option value="elementary">Elementary (Pre-K to 5th grade)</option>
+            <option value="middle school">Middle School (6th - 8th grade)</option>
+            <option value="high school">High School (9th - 12th grade)</option>
+            <option value="ap class">AP Class Level</option>
+            <option value="college">College level</option>
+            <option value="phd">PhD level</option>
+        </select>
+    
+        <!-- Number of questions input -->
+        <input type="number" name="num_questions" id="num_questions" placeholder="Enter the number of questions you want from 1 - 30" required>
+    
+        <!-- Submit button -->
+        <button type="submit">Upload PDF</button>
     </form>
+    
+    
 </body>
 </html>
