@@ -1,47 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>File Upload</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PdfBrainstorm - File Upload</title>
+   <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo span {
+            display: inline-block;
+            animation: jump 1s alternate infinite;
+            transform-origin: bottom;
+        }
+
+        @keyframes jump {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .logo:hover .brainstorm-text {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            25% {
+                transform: translateY(-10px);
+            }
+            75% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .drop-area:hover {
+            border-color: #007bff;
+        }
+
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .input-label {
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+        }
+
+        .select-input,
+        .input-number,
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .select-input:hover,
+        .input-number:hover,
+        .file-input:hover {
+            border-color: #007bff;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-link {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            transition: opacity 0.3s;
+        }
+
+        .logout-link:hover {
+            opacity: 0.7;
+        }
+
+        input[type="file"] {
+            display: grid;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #000;
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #fff;
+            color: #000;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .education-level-heading {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            transition: font-size 0.3s;
+        }
+
+        .education-level-heading:hover {
+            font-size: 26px;
+        }
+    </style>
 </head>
 <body>
-    <h1>File Upload</h1>
-
-    <!--
-    <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
-        <input type="file" name="pdfFile" id="pdfFile" required>
-        <br>
-        <input type="number" name="num_questions" id="num_questions" placeholder="Enter the number of questions you want from 1 - 10" required>
-        <br>
-        <button type="submit">Upload PDF</button>
-    </form>-->
-
-    <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
-        <!-- Drag and drop area for PDF file -->
-        <div id="drop-area" class="drop-area">
-            <p>Drag and drop your PDF file here</p>
-            <input type="file" name="pdfFile" id="pdfFile" required >
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">Pdf<span>B</span>rain<span class="brainstorm-text">s</span>t<span>o</span>rm</h1>
         </div>
-    
-        <!-- Education level options -->
-        <label for="education-level">Education Level</label>
-        <select id="education-level" name="education-level" required>
-            <option value="" disabled selected>Select Education Level</option>
-            <option value="elementary">Elementary (Pre-K to 5th grade)</option>
-            <option value="middle school">Middle School (6th - 8th grade)</option>
-            <option value="high school">High School (9th - 12th grade)</option>
-            <option value="ap class">AP Class Level</option>
-            <option value="college">College level</option>
-            <option value="phd">PhD level</option>
-        </select>
-    
-        <!-- Number of questions input -->
-        <input type="number" name="num_questions" id="num_questions" placeholder="Enter the number of questions you want from 1 - 30" required>
-    
-        <!-- Submit button -->
-        <button type="submit">Upload PDF</button>
-    </form>
-    
-    
+        <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload" class="upload-form">
+            <div id="drop-area" class="drop-area">
+                <p class="drop-message">Drag and drop your PDF file here</p>
+                <label class="custom-file-upload">
+                    <input type="file" name="pdfFile" id="pdfFile" class="file-input" required>
+                    Choose File
+                </label>
+            </div>
+            <label for="education-level" class="education-level-heading">Education Level</label>
+            <select id="education-level" name="education-level" class="select-input" required>
+                <option value="" disabled selected>Select Education Level</option>
+                <option value="elementary">Elementary (Pre-K to 5th grade)</option>
+                <option value="middle school">Middle School (6th - 8th grade)</option>
+                <option value="high school">High School (9th - 12th grade)</option>
+                <option value="ap class">AP Class Level</option>
+                <option value="college">College level</option>
+                <option value="phd">PhD level</option>
+            </select>
+            <input type="number" name="num_questions" id="num_questions" class="input-number" placeholder="Enter the number of questions you want from 1 - 30" required>
+            <button type="submit" class="submit-button">Upload PDF</button>
+        </form>
+        <a href="/logout" class="logout-link">Logout</a>
+    </div>
 </body>
 </html>

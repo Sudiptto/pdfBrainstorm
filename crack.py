@@ -3,7 +3,7 @@ import PyPDF2
 import re
 import openai
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_required, login_user
+from flask_login import UserMixin, LoginManager, login_required, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from passwords import *
 
@@ -109,7 +109,7 @@ def login():
 @app.route('/main')
 @login_required
 def hello():
-    return render_template('main.html')
+    return render_template('main.html', name=current_user)
 
 # ISSUE
 
@@ -169,6 +169,12 @@ def upload():
     else:
         return "No file was uploaded."
 
+# for logout
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 # Run the app if this script is executed directly
