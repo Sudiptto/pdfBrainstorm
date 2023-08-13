@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='storm.png') }}">
     <title>Generated Questions</title>
     <style>
         body {
@@ -74,7 +75,14 @@
             <li>{{ question }}</li>
             {% endfor %}
         </ul>
+
         <button class="print-button " onclick='window.print();'>Print</button>
+        <button class="print-button" href="/main" onclick="change()">Main Page</button>
     </div>
+    <!---NEED SCRIPT IN ORDER TO GO BACK BECAUSE THERE IS NO QUESTION DIRECTORY SO YOU WILL NEED JAVASCRIPT-->
+    <script>
+        function change(){
+        window.location.replace("/main")}
+    </script>
 </body>
 </html>

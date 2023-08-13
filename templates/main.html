@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PdfBrainstorm - File Upload</title>
+    <link rel="icon" href="{{ url_for('static', filename='storm.png') }}">
    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
     <style>
         body {
@@ -191,6 +192,7 @@
             <h1 class="logo">Pdf<span>B</span>rain<span class="brainstorm-text">s</span>t<span>o</span>rm</h1>
         </div>
         <h3>Note: Do not do Microsoft Print to PDF, as this just results in images and not a PDF that you can copy and paste. Before putting a PDF make sure you can copy and paste the text in the PDF firsthand!</h3>
+        <h3>Also note, if your document is very lengthy, it will only use the first 8,000 characters to generate questions!</h3>
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload" class="upload-form">
             <div id="drop-area" class="drop-area">
                 <p class="drop-message">Drag and drop your PDF file here</p>

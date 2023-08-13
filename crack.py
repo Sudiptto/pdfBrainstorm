@@ -23,7 +23,7 @@ openai.api_type = 'azure'
 openai.api_version = "2023-03-15-preview"
 OPENAI_MODEL = "gpt-35-turbo"
 
-
+# set up login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -60,6 +60,7 @@ class User(db.Model, UserMixin):
 
 
 # BAM API AI USAGE
+# turned the BAM code and turned it into a function to be used to for other parts
 def question_gen(txt_prompt):
   response = openai.ChatCompletion.create(
     engine=OPENAI_MODEL,
@@ -84,25 +85,29 @@ def question_gen(txt_prompt):
 @app.route('/', methods=['POST','GET'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = request.form.get('username') # grab the username and password
         password = request.form.get('password')
-        #if username == 
-        usern = User.query.filter_by(username=username).first()
-        if usern:
+        #if username ==  
+        usern = User.query.filter_by(username=username).first() # verify if the user exists
+        if usern: # if user exsits 
             print("Works")
             #user = 'sd'
             #login_user(remember=True)
             #user = User.query.filter_by(username=username).first()
+
             if check_password_hash(usern.password, password):
                 login_user(usern, remember=True)
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('hello'))
+            
             else:
                 flash('Right username, wrong password. Email biswassudiptto@gmail.com for a password!', category='error')
             #return redirect(url_for('hello'))
+
         else:
             flash("Denied: Wrong username or password. If you don't have an account, please contact biswassudiptto@gmail.com", 'error')
             #print('None')
+
     return render_template('login.html')
 
 # Define a route and its handler
@@ -112,27 +117,30 @@ def hello():
     return render_template('main.html', name=current_user)
 
 # ISSUE
-
+# returns if there is an issue 
 @app.route('/issue')
 @login_required
 def issue():
     return render_template('issue.html')
 
-@app.route('/upload', methods=['POST'])
-@login_required
-def upload():
-    file = request.files['pdfFile']
+@app.route('/upload', methods=['POST']) # where the code happens
+@login_required 
+def upload(): 
+
+    # grab the user values
+    file = request.files['pdfFile'] # grabbing the file
     numb_question = request.form.get('num_questions')
     number_question = int(numb_question)
     type_question = request.form.get('education-level')
-    print(type_question)
-    print(number_question)
+
+    #print(type_question)
+    #print(number_question)
     # Do something with the uploaded file (e.g., save it, process it, etc.)
     # For this example, we'll just print the filename and return a success message.
-    if file:
+    if file: # very if the file is there
         filename = file.filename
         print(f"Received file: {filename}")
-        
+         
         reader = PyPDF2.PdfReader(file) 
         # Extract text from the PDF
         all_text = ""
@@ -148,11 +156,11 @@ def upload():
         # Limit the text to 8000 characters (you can adjust this if needed)
         if len(all_text) > 8000:
             all_text = all_text[:8000]
-
-            # KEEP HIDDEN FOR NOW NOT TO WASTE API SPACE
-        if number_question > 0 and number_question < 30:
+        
+          
+        if number_question > 0 and number_question < 20: # between 1 - 20 
             txt_prompt = f'Based on this text, only generate {number_question} relevant questions based on the text. Make sure the difficulty of the questions are at a {type_question} level and only print out the {number_question} questions based on the text: {all_text}  '
-            questions = question_gen(txt_prompt) # use chatgpt
+            questions = question_gen(txt_prompt) # use chatgpt 
             print(questions)
             #print(type(questions))
             # Render the questions.html template and pass the generated questions to the template
@@ -161,6 +169,9 @@ def upload():
 
             #questions =  ['backyard, where various relatives of different nationalities used to celebrate holidays with lots of food and decorations.', '', '1. What fundamental changes occurred in Paterson, New Jersey on the day President Kennedy was shot? ', '2. How was President Kennedy viewed by the new immigrant inhabitants of El Building? ', '3. What was the emotional impact of the cold winter day on the narrator? ', '4. What inspired the narrator in the midst of her gloomy surroundings? ', "5. How was the narrator's view of Eugene's house different from its previous inhabitants?"]
             return render_template('questions.html', questions=questions)
+            #return redirect(url_for('questions', question=questions))
+
+            # return if question size is to small 
         elif number_question < 1:
             return render_template('issue.html')
         elif number_question > 20:
