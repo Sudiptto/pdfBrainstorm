@@ -190,6 +190,7 @@
         <div class="header">
             <h1 class="logo">Pdf<span>B</span>rain<span class="brainstorm-text">s</span>t<span>o</span>rm</h1>
         </div>
+        <h3>Note: Do not do Microsoft Print to PDF, as this just results in images and not a PDF that you can copy and paste. Before putting a PDF make sure you can copy and paste the text in the PDF firsthand!</h3>
         <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload" class="upload-form">
             <div id="drop-area" class="drop-area">
                 <p class="drop-message">Drag and drop your PDF file here</p>
@@ -208,8 +209,8 @@
                 <option value="college">College level</option>
                 <option value="phd">PhD level</option>
             </select>
-            <input type="number" name="num_questions" id="num_questions" class="input-number" placeholder="Enter the number of questions you want from 1 - 30" required>
-            <button type="submit" class="submit-button">Upload PDF</button>
+            <input type="number" name="num_questions" id="num_questions" class="input-number" placeholder="Enter the number of questions you want from 1 - 20" required>
+            <button type="submit" class="submit-button">Upload All</button>
         </form>
         <a href="/logout" class="logout-link">Logout</a>
     </div>

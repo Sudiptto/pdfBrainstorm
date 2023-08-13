@@ -1,14 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generated Questions</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .questions-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        .questions-list li {
+            font-size: 18px;
+            font-style: italic;
+            margin: 10px 0;
+        }
+        .question-label {
+            font-weight: bold;
+            font-size: 20px;
+            color: #fff;
+            background-color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .print-button {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            margin-top: 20px;
+        
+            }
+        
+        .print-button:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+       
+    </style>
 </head>
 <body>
-    <h1>Generated Questions</h1>
-    <ul>
-        {% for question in questions %}
-        <li>{{ question }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="header">
+            <h1>Generated Questions</h1>
+        </div>
+        <ul class="questions-list">
+            {% for question in questions %}
+            <li>{{ question }}</li>
+            {% endfor %}
+        </ul>
+        <button class="print-button " onclick='window.print();'>Print</button>
+    </div>
 </body>
 </html>

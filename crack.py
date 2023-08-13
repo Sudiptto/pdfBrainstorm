@@ -163,8 +163,9 @@ def upload():
             return render_template('questions.html', questions=questions)
         elif number_question < 1:
             return render_template('issue.html')
-        elif number_question > 30:
-            print("To many questions add between 1 - 10 question, subject to change as API usage increases! ")
+        elif number_question > 20:
+            return render_template('issue.html')
+            #print("To many questions add between 1 - 20 question, subject to change as API usage increases! ")
         
     else:
         return "No file was uploaded."
